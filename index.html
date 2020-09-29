@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<!-- Required meta tags -->
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<!-- Bootstrap CSS -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"  />
+	<title>Select 2</title>
+</head>
+<body>
+	<div class="container">
+		<h1>Select 2 Custom Result </h1>
+	</div>
+
+	<form>
+		<div class="container">
+			<img src="" style="max-width: 100%" />
+			<div class="form-row">
+				<div class="col-5">
+					<select name="kdbrg[]" required class="searchBrg" style="width: 100%;" id="kditem_1">
+						<option></option>
+					</select>
+				</div>
+				<div class="col">
+					<input type="text" id="quantity_1" class="form-control changesNo buatDuit" name="jml[]">
+				</div>
+				<div class="col">
+					<input type="text" readonly="true" class="form-control changesNo buatDuit" id="price_1" name="harga[]">
+				</div>
+				<div class="col">
+					<input type="text" class="form-control totalLinePrice buatDuit" id="total_1" readonly name="total[]">
+				</div>
+			</div>
+		</form>
+	</div>
+
+
+
+	<!-- Optional JavaScript -->
+	<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/3.2.6/jquery.inputmask.bundle.min.js"></script>
+
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
+	<script type="text/javascript">
+
+		$(document).ready(function() {
+			$(".buatDuit").inputmask({
+				'alias': 'currency',
+				prefix: ' ',
+				rightAlign: false,
+				'groupSeparator': '.',
+				'autoGroup': true,
+				'autoUnmask':true,
+				'removeMaskOnSubmit':true
+			});
+			var data = [
+			{
+				id: 0,
+				text: 'Pena',
+				satuan:'PCS',
+				harga:'1000',
+				image:'https://png.pngtree.com/png-clipart/20200709/original/pngtree-pen-png-image_955401.jpg'
+			},
+			{
+				id: 1,
+				text: 'Botol',
+				satuan:'LUSIN',
+				harga:'5000',
+				image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-vector-milk-glass-products-bottle-png-png-image_3255150.jpg'
+
+			},
+			{
+				id: 2,
+				text: 'Mie',
+				satuan:'DUS',
+				harga:'50000',
+				image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-noodles-png-image_2027781.jpg'
+			}
+
+			];
+
+			function formatitem (data) {
+
+
+				var markup = '<div class="clearfix">' +
+				'<div class="row">' +
+				'<div class="col-sm-12">' + data.text + '</div>' +
+				'<div class="col-sm-12"> Satuan: <b>' +data.satuan + '</b></div>' +
+				'<div class="col-sm-12"> Harga: <b>' +data.harga + '</b></div>' +
+				'<div class="col-sm-12">'+ 
+				'<img src="' + data.image + '" style="max-width: 100px;max-height: 100px;" />' + 
+				'</div>' +
+				'</div>' +
+
+				'<div class="clearfix">' +
+
+
+				'</div>';
+
+
+				return markup;
+			}
+
+			function formatitemSelection (data) {
+				return data.text || data.text;
+			}
+
+			var $dtBrg = $('.searchBrg');
+			$dtBrg.select2({
+				data: data,
+				escapeMarkup: function (markup) { return markup; },
+				minimumInputLength: 1,
+				templateResult: formatitem, 
+				templateSelection: formatitemSelection
+			});
+
+			$dtBrg.on('select2:select', function (e) {
+				var data = e.params.data;
+				console.log(data);
+				var harga = data.harga;
+
+				id_arr = $(this).attr('id');
+				id = id_arr.split("_");
+				$('#price_'+id[1]).val(harga);
+				quantity = $('#quantity_1').val('0');
+				quantity = $('#total_1').val('0');
+			});
+
+		});
+		$(document).on('change keyup blur','.changesNo','.duit',function(){
+			id_arr = $(this).attr('id');
+			id = id_arr.split("_");
+			quantity = $('#quantity_'+id[1]).val();
+			price = $('#price_'+id[1]).val();
+			if( quantity!='' && price !='' ) 
+
+				$('#total_'+id[1]).val( (parseFloat(price)*parseFloat(quantity)).toFixed(2) ); 
+			calculateTotal();
+
+		});
+		
+
+	</script>
+</body>
+</html>
