@@ -8,6 +8,7 @@
 	<!-- Bootstrap CSS -->
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" >
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/css/select2.min.css"  />
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" >
 	<title>Select 2</title>
 </head>
 <body>
@@ -15,26 +16,58 @@
 		<h1>Select 2 Custom Result </h1>
 	</div>
 
-	<form>
-		<div class="container">
-			<img src="" style="max-width: 100%" />
-			<div class="form-row">
-				<div class="col-5">
-					<select name="kdbrg[]" required class="searchBrg" style="width: 100%;" id="kditem_1">
-						<option></option>
-					</select>
-				</div>
-				<div class="col">
-					<input type="text" id="quantity_1" class="form-control changesNo buatDuit" name="jml[]">
-				</div>
-				<div class="col">
-					<input type="text" readonly="true" class="form-control changesNo buatDuit" id="price_1" name="harga[]">
-				</div>
-				<div class="col">
-					<input type="text" class="form-control totalLinePrice buatDuit" id="total_1" readonly name="total[]">
-				</div>
+	
+	<div class="container">
+
+		<table class="table table-bordered table-hover" id="tablereaksi">
+			<thead>
+				<tr>
+					<th></th>
+					<th>nama barang</th>
+					<th>jumlah</th>
+					<th>harga</th>
+					<th>Total</th>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td><input class="case" type="checkbox"/></td>
+					<td>
+						<select name="kdbrg[]" required class="searchBrg" style="width: 100%;" id="kditem_1">
+							<option></option>
+						</select>
+						<img src="" class="cek" id="image_1" style="max-width: 50px;max-height: 50px;">
+					</td>
+					<td>
+						
+						<input type="text" id="quantity_1" class="form-control changesNo buatDuit" name="jml[]">
+					</td>  
+					<td>
+						<input type="text" class="form-control changesNo buatDuit" id="price_1" name="harga[]">
+					</td>
+					<td>
+						<input type="text" class="form-control totalLinePrice buatDuit" id="total_1" readonly name="total[]">
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		
+		
+		<div class="form-group">
+			<label class="col-sm-2 control-label"></label>
+			<div class="col-sm-10">
+				<button class="btn btn-danger delete" type="button"><i class="fa fa-minus"></i> </button>
+				<button class="btn btn-success addmore" type="button"><i class="fa fa-plus"></i> </button>
 			</div>
-		</form>
+		</div>
+		<div class="form-group">
+			<label class="col-sm-2 control-label">Jumlah</label>
+			<div class="col-sm-4">
+				<input type="text" class="form-control buatDuit" readonly id="subTotal">
+			</div>
+		</div>
+		
+
 	</div>
 
 
@@ -47,68 +80,62 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.3/js/select2.full.min.js"></script>
 	<script type="text/javascript">
 
+	</script>
+
+	<script type="text/javascript">
+		var data = [
+		{
+			id: 0,
+			text: 'Pena',
+			satuan:'PCS',
+			harga:'1000',
+			image:'https://png.pngtree.com/png-clipart/20200709/original/pngtree-pen-png-image_955401.jpg'
+		},
+		{
+			id: 1,
+			text: 'Botol',
+			satuan:'LUSIN',
+			harga:'5000',
+			image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-vector-milk-glass-products-bottle-png-png-image_3255150.jpg'
+
+		},
+		{
+			id: 2,
+			text: 'Mie',
+			satuan:'DUS',
+			harga:'50000',
+			image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-noodles-png-image_2027781.jpg'
+		}
+
+		];
+		function formatitem (data) {
+
+
+			var markup = '<div class="clearfix">' +
+			'<div class="row">' +
+			'<div class="col-sm-12">' + data.text + '</div>' +
+			'<div class="col-sm-12"> Satuan: <b>' +data.satuan + '</b></div>' +
+			'<div class="col-sm-12"> Harga: <b>' +data.harga + '</b></div>' +
+			'<div class="col-sm-12">'+ 
+			'<img src="' + data.image + '" style="max-width: 100px;max-height: 100px;" />' + 
+			'</div>' +
+			'</div>' +
+
+			'<div class="clearfix">' +
+
+
+			'</div>';
+
+
+			return markup;
+		}
+
+		function formatitemSelection (data) {
+			return data.text || data.text;
+		}
+
+
 		$(document).ready(function() {
-			$(".buatDuit").inputmask({
-				'alias': 'currency',
-				prefix: ' ',
-				rightAlign: false,
-				'groupSeparator': '.',
-				'autoGroup': true,
-				'autoUnmask':true,
-				'removeMaskOnSubmit':true
-			});
-			var data = [
-			{
-				id: 0,
-				text: 'Pena',
-				satuan:'PCS',
-				harga:'1000',
-				image:'https://png.pngtree.com/png-clipart/20200709/original/pngtree-pen-png-image_955401.jpg'
-			},
-			{
-				id: 1,
-				text: 'Botol',
-				satuan:'LUSIN',
-				harga:'5000',
-				image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-vector-milk-glass-products-bottle-png-png-image_3255150.jpg'
-
-			},
-			{
-				id: 2,
-				text: 'Mie',
-				satuan:'DUS',
-				harga:'50000',
-				image:'https://png.pngtree.com/png-clipart/20190611/original/pngtree-noodles-png-image_2027781.jpg'
-			}
-
-			];
-
-			function formatitem (data) {
-
-
-				var markup = '<div class="clearfix">' +
-				'<div class="row">' +
-				'<div class="col-sm-12">' + data.text + '</div>' +
-				'<div class="col-sm-12"> Satuan: <b>' +data.satuan + '</b></div>' +
-				'<div class="col-sm-12"> Harga: <b>' +data.harga + '</b></div>' +
-				'<div class="col-sm-12">'+ 
-				'<img src="' + data.image + '" style="max-width: 100px;max-height: 100px;" />' + 
-				'</div>' +
-				'</div>' +
-
-				'<div class="clearfix">' +
-
-
-				'</div>';
-
-
-				return markup;
-			}
-
-			function formatitemSelection (data) {
-				return data.text || data.text;
-			}
-
 			var $dtBrg = $('.searchBrg');
 			$dtBrg.select2({
 				data: data,
@@ -121,15 +148,24 @@
 			$dtBrg.on('select2:select', function (e) {
 				var data = e.params.data;
 				console.log(data);
-				var harga = data.harga;
+				var harga = data.harga,image = data.image;
 
 				id_arr = $(this).attr('id');
 				id = id_arr.split("_");
 				$('#price_'+id[1]).val(harga);
-				quantity = $('#quantity_1').val('0');
-				quantity = $('#total_1').val('0');
+				$('#image_'+id[1]).val(image);
+				$('#image_'+id[1]).attr('src',image);
+				$('#quantity_'+id[1]).val('0');
+				$('#total_'+id[1]).val('0');
 			});
-
+			$(".buatDuit").inputmask({
+				'alias': 'currency',
+				prefix: ' ',
+				rightAlign: true,
+				'groupSeparator': '.',
+				'autoGroup': true,
+				'autoUnmask':true
+			});
 		});
 		$(document).on('change keyup blur','.changesNo','.duit',function(){
 			id_arr = $(this).attr('id');
@@ -142,8 +178,105 @@
 			calculateTotal();
 
 		});
-		
+
+		function calculateTotal(){
+			subTotal = 0 ; total = 0; 
+			$('.totalLinePrice').each(function(){
+				if($(this).val() != '' )subTotal += parseFloat( $(this).val() );
+			});
+			$('#subTotal').val( subTotal.toFixed(2) );
+		}
+
 
 	</script>
+
+	<script type="text/javascript">
+		
+		function formatitem (data) {
+
+
+			var markup = '<div class="clearfix">' +
+			'<div class="row">' +
+			'<div class="col-sm-12">' + data.text + '</div>' +
+			'<div class="col-sm-12"> Satuan: <b>' +data.satuan + '</b></div>' +
+			'<div class="col-sm-12"> Harga: <b>' +data.harga + '</b></div>' +
+			'<div class="col-sm-12">'+ 
+			'<img src="' + data.image + '" style="max-width: 100px;max-height: 100px;" />' + 
+			'</div>' +
+			'</div>' +
+
+			'<div class="clearfix">' +
+
+
+			'</div>';
+
+
+			return markup;
+		}
+
+		function formatitemSelection (data) {
+			return data.text || data.text;
+		}
+
+		var i=$('table tr').length;
+		$(".addmore").on('click',function(){
+
+			$('.searchBrg').select2("destroy");
+
+			html = '<tr>';
+			html += '<td><input class="case" type="checkbox"/></td>';
+			html += '<td><select name="kdbrg[]" required class="searchBrg" style="width: 100%;" id="kditem_'+i+'"><option></option></select><img src="" class="cek" id="image_'+i+'" style="max-width: 50px;max-height: 50px;"></td>';
+			
+			html += '<td><input type="text" name="jml[]" id="quantity_'+i+'" class="form-control changesNo buatDuit" ></td>';
+			html += '<td><input type="text" name="harga[]" id="price_'+i+'" class="form-control changesNo buatDuit" ></td>';
+			html += '<td><input type="text" name="total[]" id="total_'+i+'" class="form-control changesNo totalLinePrice buatDuit" readonly></td>';
+			html += '</tr>';
+			$('#tablereaksi').append(html);
+			i++;
+			var $dtBrg = $('.searchBrg');
+			$dtBrg.select2({
+				data: data,
+				escapeMarkup: function (markup) { return markup; },
+				minimumInputLength: 1,
+				templateResult: formatitem, 
+				templateSelection: formatitemSelection
+			});
+
+			$dtBrg.on('select2:select', function (e) {
+				var data = e.params.data;
+				console.log(data);
+				var harga = data.harga,image = data.image;
+
+				id_arr = $(this).attr('id');
+				id = id_arr.split("_");
+				$('#price_'+id[1]).val(harga);
+				$('#image_'+id[1]).val(image);
+				$('#image_'+id[1]).attr('src',image);
+				$('#quantity_'+id[1]).val('0');
+				$('#total_'+id[1]).val('0');
+			});
+
+
+			$(".buatDuit").inputmask({
+				'alias': 'currency',
+				prefix: ' ',
+				rightAlign: true,
+				'groupSeparator': '.',
+				'autoGroup': true,
+				'autoUnmask':true
+			});
+
+		});
+
+//delete
+$(".delete").on('click', function() {
+	$('.case:checkbox:checked').parents("tr").remove();
+	$('#check_all').prop("checked", false);
+	
+
+	
+	calculateTotal();
+});
+</script>
 </body>
 </html>
